@@ -64,14 +64,52 @@ const getSpecificBook = async (req: Request, res: Response) => {
             error: error,
         })
     }
-
-
 }
 
+
+// Update a Book
+const updateBookById = async (req: Request, res: Response) => {
+    try {
+        const { productId } = req.params;
+        const updateData = req.body;
+
+        if (!updateData || Object.keys(updateData).length === 0) {
+            return res.status(400).json({
+                message: "No update data provided",
+                status: false,
+                data: null,
+            });
+        }
+
+        const result = await bookServices.updateBookInDb(productId, updateData)
+
+        if (!result) {
+            return res.status(404).json({
+                message: "Book not found",
+                status: false,
+                date: null,
+            });
+        }
+
+        res.status(201).json({
+            message: "Book updated successfully",
+            status: true,
+            data: result,
+        })
+
+    } catch (error) {
+        res.status(400).json({
+            message: "Failed to update the book",
+            status: false,
+            error: error,
+        });
+    }
+}
 
 
 export const bookControllers = {
     getAllBooks,
     createNewBook,
     getSpecificBook,
+    updateBookById,
 }

@@ -15,13 +15,22 @@ const getBooksFromDb = async () => {
 }
 
 // get Specific book
-const getSpecificBookFromDb = async (productId : string) => {
+const getSpecificBookFromDb = async (productId: string) => {
     const result = await BookModel.findById(productId);
-    return result
+    return result;
 }
+
+// Update a Book
+export const updateBookInDb = async (productId: string, updateData: IBook) => {
+    const result = await BookModel.findByIdAndUpdate(productId,updateData);
+    return result;
+}
+
+
 
 export const bookServices = {
     getBooksFromDb,
     createBookInDb,
-    getSpecificBookFromDb
+    getSpecificBookFromDb,
+    updateBookInDb,
 }
