@@ -24,6 +24,17 @@ git clone https://github.com/your-username/book-shop-api.git
 cd book-shop-api
 ```
 
+### Step 2: Install Dependencies
+```bash
+npm install
+```
+
+### Step 3: Start the Application
+```bash
+npm run start
+```
+
+
 ## API Endpoints
 
 ### 1. Products (Books)
