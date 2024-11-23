@@ -16,19 +16,19 @@ const getBooksFromDb = async () => {
 
 // get Specific book
 const getSpecificBookFromDb = async (productId: string) => {
-    const result = await BookModel.findById(productId);
+    const result = await BookModel.findById({_id:productId});
     return result;
 }
 
 // Update a Book
 const updateBookInDb = async (productId: string, updateData: IBook) => {
-    const result = await BookModel.findByIdAndUpdate(productId,updateData,{ new: true });
+    const result = await BookModel.findByIdAndUpdate(productId, updateData, { new: true });
     return result;
 }
 
 // delete a book
-const deleteBookInDb = async (productId : string) => {
-    const result = await BookModel.findOne(productId, {isDeleted : true} as IBook)
+const deleteBookInDb = async (productId: string) => {
+    const result = await BookModel.findByIdAndUpdate({_id:productId}, { isDeleted: true } , { new: true })
     return result;
 }
 
