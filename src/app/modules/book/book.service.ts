@@ -1,11 +1,6 @@
 import { IBook } from "./book.interface";
 import { BookModel } from "./book.model"
 
-// Get All Books 
-const getBooksFromDb = async () => {
-    const result = await BookModel.find();
-    return result;
-}
 
 // Create a Book
 const createBookInDb = async (bookData: IBook) => {
@@ -13,7 +8,20 @@ const createBookInDb = async (bookData: IBook) => {
     return result;
 }
 
+// Get All Books 
+const getBooksFromDb = async () => {
+    const result = await BookModel.find();
+    return result;
+}
+
+// get Specific book
+const getSpecificBookFromDb = async (productId : string) => {
+    const result = await BookModel.findById(productId);
+    return result
+}
+
 export const bookServices = {
     getBooksFromDb,
     createBookInDb,
+    getSpecificBookFromDb
 }

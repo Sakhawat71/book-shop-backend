@@ -1,10 +1,33 @@
 import { Request, Response } from "express";
 import { bookServices } from "./book.service";
+import { bookValidateSchema } from "./book.zod-validation";
 
+
+// createNewBook 
+
+const createNewBook = async (req: Request, res: Response) => {
+    try {
+        const bookData = req.body;
+
+        const validatBookData = bookValidateSchema.parse(bookData);
+        const result = await bookServices.createBookInDb(validatBookData);
+
+        res.status(201).json({
+            message: "Book created successfully",
+            success: true,
+            data: result
+        })
+    } catch (error) {
+        res.status(400).json({
+            seccess: false,
+            message: 'Book can`t created',
+            data: error,
+        });
+    }
+}
 
 // get books
 const getAllBooks = async (req: Request, res: Response) => {
-
     try {
         const result = await bookServices.getBooksFromDb();
         res.status(201).json({
@@ -22,28 +45,33 @@ const getAllBooks = async (req: Request, res: Response) => {
     }
 }
 
-// createNewBook 
 
-const createNewBook = async (req: Request, res: Response) => {
+// Get a Specific Book
+const getSpecificBook = async (req: Request, res: Response) => {
     try {
-        const bookData = req.body;
-        const result = await bookServices.createBookInDb(bookData);
+        const { productId } = req.params;
+        const result = await bookServices.getSpecificBookFromDb(productId);
         res.status(201).json({
-            message: "Book created successfully",
-            success: true,
-            data: result
+            "message": "Book retrieved successfully",
+            "status": true,
+            "data": result,
         })
+
     } catch (error) {
         res.status(400).json({
-            seccess: false,
-            message: 'Book can`t created',
-            data: error,
-        });
+            message: 'Failed to get Specific Book by Id',
+            success: false,
+            error: error,
+        })
     }
+
+
 }
+
 
 
 export const bookControllers = {
     getAllBooks,
     createNewBook,
+    getSpecificBook,
 }
