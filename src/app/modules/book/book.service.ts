@@ -21,8 +21,14 @@ const getSpecificBookFromDb = async (productId: string) => {
 }
 
 // Update a Book
-export const updateBookInDb = async (productId: string, updateData: IBook) => {
-    const result = await BookModel.findByIdAndUpdate(productId,updateData);
+const updateBookInDb = async (productId: string, updateData: IBook) => {
+    const result = await BookModel.findByIdAndUpdate(productId,updateData,{ new: true });
+    return result;
+}
+
+// delete a book
+const deleteBookInDb = async (productId : string) => {
+    const result = await BookModel.findOne(productId, {isDeleted : true} as IBook)
     return result;
 }
 
@@ -33,4 +39,5 @@ export const bookServices = {
     createBookInDb,
     getSpecificBookFromDb,
     updateBookInDb,
+    deleteBookInDb,
 }

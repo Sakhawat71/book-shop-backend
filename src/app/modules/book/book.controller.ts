@@ -74,7 +74,7 @@ const updateBookById = async (req: Request, res: Response) => {
         const updateData = req.body;
 
         if (!updateData || Object.keys(updateData).length === 0) {
-            return res.status(400).json({
+            res.status(400).json({
                 message: "No update data provided",
                 status: false,
                 data: null,
@@ -84,7 +84,7 @@ const updateBookById = async (req: Request, res: Response) => {
         const result = await bookServices.updateBookInDb(productId, updateData)
 
         if (!result) {
-            return res.status(404).json({
+             res.status(404).json({
                 message: "Book not found",
                 status: false,
                 date: null,
@@ -107,9 +107,32 @@ const updateBookById = async (req: Request, res: Response) => {
 }
 
 
+// delete a book
+const deleteABookById = async (req: Request, res: Response) => {
+    try {
+        const { productId } = req.params;
+        const result = await bookServices.deleteBookInDb(productId)
+        res.status(201).json({
+            message: "Book deleted successfully",
+            statu: true,
+            data: result
+        })
+
+    } catch (error) {
+        res.status(400).json({
+            message: "Book deleted successfully",
+            status: true,
+            data: error
+        })
+    }
+}
+
+
+
 export const bookControllers = {
     getAllBooks,
     createNewBook,
     getSpecificBook,
     updateBookById,
+    deleteABookById,
 }

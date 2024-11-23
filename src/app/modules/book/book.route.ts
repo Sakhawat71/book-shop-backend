@@ -7,7 +7,7 @@ router.post('/',bookControllers.createNewBook);
 router.get('/',bookControllers.getAllBooks);
 router.get('/:productId', bookControllers.getSpecificBook);
 router.put('/:productId', bookControllers.updateBookById);
-router.delete('/:productId',)
+router.delete('/:productId', bookControllers.deleteABookById);
 
 
 export const bookRouter = router; 

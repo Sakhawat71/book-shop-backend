@@ -11,10 +11,6 @@
         "src": "/(.*)",
         "dest": "dist/server.js"
       }
-    ],
-    "env": {
-      "MONGO_URI": "your-mongodb-connection-string",
-      "PORT": "5000"
-    }
+    ]
   }
   
