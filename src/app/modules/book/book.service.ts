@@ -9,8 +9,18 @@ const createBookInDb = async (bookData: IBook) => {
 }
 
 // Get All Books 
-const getBooksFromDb = async () => {
-    const result = await BookModel.find();
+const getBooksFromDb = async (searchTerm?: string) => {
+
+    const filter : any = {};
+    if (searchTerm) {
+        const searchRegex = new RegExp(searchTerm, "i")
+        filter.$or = [
+            { title: searchRegex },
+            { author: searchRegex },
+            { category: searchRegex },
+        ]
+    }
+    const result = await BookModel.find(filter as IBook);
     return result;
 }
 
@@ -34,7 +44,7 @@ const updateBookInDb = async (productId: string, updateData: IBook) => {
 
 // delete a book
 const deleteBookFromDb = async (productId: string) => {
-    const resutl = await BookModel.findByIdAndDelete({_id :productId},{ lean: true });
+    const resutl = await BookModel.findByIdAndDelete({ _id: productId }, { lean: true });
     return resutl;
 }
 

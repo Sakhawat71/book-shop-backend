@@ -27,13 +27,16 @@ const createNewBook = async (req: Request, res: Response) => {
 }
 
 // get books
-const getAllBooks = async (req: Request, res: Response) => {
+const getAllBooks = async (req: Request, res: Response) :Promise<void> => {
     try {
-        const result = await bookServices.getBooksFromDb();
+
+        const {searchTerm} = req.query;
+
+        const result = await bookServices.getBooksFromDb(searchTerm as string);
         res.status(201).json({
-            "message": "Books retrieved successfully",
-            "status": true,
-            "data": result,
+            message: "Books retrieved successfully",
+            success: true,
+            data: result,
         })
 
     } catch (error) {
@@ -55,15 +58,15 @@ const getSpecificBook = async (req: Request, res: Response) : Promise<void> => {
         if (!result) {
             res.status(404).json({
                 message: "Book not found",
-                status: false,
+                success: false,
                 data : {}
             });
             return ;
         }
 
         res.status(201).json({
-            messag: "Book retrieved successfully",
-            status: true,
+            message: "Book retrieved successfully",
+            success: true,
             data: result,
         })
 
@@ -86,7 +89,7 @@ const updateBookById = async (req: Request, res: Response) => {
         if (!updateData || Object.keys(updateData).length === 0) {
             res.status(400).json({
                 message: "No update data provided",
-                status: false,
+                success: false,
                 data: null,
             });
             return;
@@ -97,7 +100,7 @@ const updateBookById = async (req: Request, res: Response) => {
         if (!result) {
             res.status(404).json({
                 message: "Book not found",
-                status: false,
+                success: false,
                 date: null,
             });
             return;
@@ -105,14 +108,14 @@ const updateBookById = async (req: Request, res: Response) => {
 
         res.status(201).json({
             message: "Book updated successfully",
-            status: true,
+            success: true,
             data: result,
         })
 
     } catch (error) {
         res.status(400).json({
             message: "Failed to update the book",
-            status: false,
+            success: false,
             error: error,
         });
     }
@@ -128,7 +131,7 @@ const deleteABookById = async (req: Request, res: Response) :Promise<void> => {
         if(!result){
             res.status(404).json({
                 message: "Book not found",
-                status: false,
+                success: false,
                 data : {}
             })
             return;
@@ -136,14 +139,14 @@ const deleteABookById = async (req: Request, res: Response) :Promise<void> => {
 
         res.status(201).json({
             message: "Book deleted successfully",
-            statu: true,
+            success: true,
             data: {}
         })
 
     } catch (error) {
         res.status(400).json({
             message: "Can't delete this book",
-            status: false,
+            success: false,
             data: error
         })
     }
