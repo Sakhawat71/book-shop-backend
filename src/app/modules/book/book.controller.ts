@@ -1,14 +1,13 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { bookServices } from "./book.service";
 import { bookValidateSchema } from "./book.zod-validation";
 
 
 // createNewBook 
 
-const createNewBook = async (req: Request, res: Response) => {
+const createNewBook = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const bookData = req.body;
-
         const validatBookData = bookValidateSchema.parse(bookData);
         const result = await bookServices.createBookInDb(validatBookData);
 
@@ -17,21 +16,28 @@ const createNewBook = async (req: Request, res: Response) => {
             success: true,
             data: result
         })
+
     } catch (error) {
-        res.status(400).json({
-            seccess: false,
-            message: 'Book can`t created',
-            error,
-        });
+
+        if (error.name === 'ZodError') {
+            next(error)
+        }
+        else {
+            // general errors
+            res.status(400).json({
+                success: false,
+                message: 'Book can`t be created',
+                error,
+            });
+        }
     }
 }
 
 // get books
-const getAllBooks = async (req: Request, res: Response) :Promise<void> => {
+const getAllBooks = async (req: Request, res: Response): Promise<void> => {
     try {
 
-        const {searchTerm} = req.query;
-
+        const { searchTerm } = req.query;
         const result = await bookServices.getBooksFromDb(searchTerm as string);
         res.status(201).json({
             message: "Books retrieved successfully",
@@ -50,7 +56,7 @@ const getAllBooks = async (req: Request, res: Response) :Promise<void> => {
 
 
 // Get a Specific Book
-const getSpecificBook = async (req: Request, res: Response) : Promise<void> => {
+const getSpecificBook = async (req: Request, res: Response): Promise<void> => {
     try {
         const { productId } = req.params;
         const result = await bookServices.getSpecificBookFromDb(productId);
@@ -59,9 +65,9 @@ const getSpecificBook = async (req: Request, res: Response) : Promise<void> => {
             res.status(404).json({
                 message: "Book not found",
                 success: false,
-                data : {}
+                data: {}
             });
-            return ;
+            return;
         }
 
         res.status(201).json({
@@ -123,16 +129,16 @@ const updateBookById = async (req: Request, res: Response) => {
 
 
 // delete a book
-const deleteABookById = async (req: Request, res: Response) :Promise<void> => {
+const deleteABookById = async (req: Request, res: Response): Promise<void> => {
     try {
         const { productId } = req.params;
         const result = await bookServices.deleteBookFromDb(productId);
 
-        if(!result){
+        if (!result) {
             res.status(404).json({
                 message: "Book not found",
                 success: false,
-                data : {}
+                data: {}
             })
             return;
         }

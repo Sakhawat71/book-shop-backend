@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import { bookRouter } from './app/modules/book/book.route';
 import { orderRouter } from './app/modules/order/order.route';
+import globalErrorHandler from './app/modules/middlewares/errorHandler';
 const app: Application = express();
 
 app.use(express.json());
@@ -18,5 +19,7 @@ app.get('/', (req: Request, res: Response) => {
         message: "book-shop server is running..... .... ... .. ."
     })
 });
+
+app.use(globalErrorHandler)
 
 export default app;

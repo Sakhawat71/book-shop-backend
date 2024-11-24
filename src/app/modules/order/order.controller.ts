@@ -32,14 +32,14 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
             return;
         }
 
-        // Decrease book quantity and save 
+        // Update inventory and save 
         foundBook.quantity -= validOrderData.quantity;
         if (foundBook.quantity === 0) {
             foundBook.inStock = false;
         }
         await foundBook.save();
 
-        // create an order
+        // create the order
         const newOrder = await orderService.createAnOrder(validOrderData as any);
         res.status(201).json({
             message: "Order created successfully",
@@ -48,7 +48,17 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
         });
 
     } catch (error) {
-        next(error)
+
+        if (error.name === 'ZodError') {
+            next(error)
+        }
+        else {
+            res.status(400).json({
+                success: false,
+                message: "Failed to create order",
+                error,
+            });
+        }
     }
 }
 
@@ -63,7 +73,11 @@ const getRevenue = async (req: Request, res: Response, next: NextFunction) => {
         });
 
     } catch (error) {
-        next(error)
+        next({
+            message: "Failed to calculate revenue",
+            success: false,
+            error,
+        });
     }
 }
 
