@@ -34,6 +34,7 @@ npm install
 npm run start
 ```
 
+#### live link : [live link](https://book-shop-sabbir.vercel.app/)
 
 ## API Endpoints
 
@@ -48,5 +49,3 @@ npm run start
 - **Create Order**: `POST /api/orders`
 - **Get Total Revenue**: `GET /api/orders/revenue`
 
-
-#### live link : [live link](https://book-shop-sabbir.vercel.app/)
