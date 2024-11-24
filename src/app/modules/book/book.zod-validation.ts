@@ -10,7 +10,7 @@ export const bookValidateSchema = z.object({
     description: z.string().min(1, 'Description is required'),
     quantity: z.number().int().positive('Quantity must be a positive integer'),
     inStock: z.boolean(),
-    isDeleted: z.boolean().optional(),
+    // isDeleted: z.boolean().optional(),
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
 })

@@ -21,7 +21,7 @@ const createNewBook = async (req: Request, res: Response) => {
         res.status(400).json({
             seccess: false,
             message: 'Book can`t created',
-            data: error,
+            error,
         });
     }
 }

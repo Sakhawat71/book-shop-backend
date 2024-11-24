@@ -16,7 +16,7 @@ const bookSchema = new Schema<IBook>({
     price: {
         type: Number,
         required: [true, 'Price is required.'],
-        min: [0, 'Price must be a positive number.'],
+        min: [1, 'Price must be a positive number.'],
     },
     category: {
         type: String,
@@ -41,10 +41,10 @@ const bookSchema = new Schema<IBook>({
         required: [true, 'In-stock status is required.'],
         default: true,
     },
-    isDeleted: {
-        type: Boolean,
-        default: false,
-    },
+    // isDeleted: {
+    //     type: Boolean,
+    //     default: false,
+    // },
     createdAt: {
         type: String,
         default: () => new Date().toISOString(),
