@@ -16,7 +16,7 @@ const getBooksFromDb = async () => {
 
 // get Specific book
 const getSpecificBookFromDb = async (productId: string) => {
-    const result = await BookModel.findById({_id:productId});
+    const result = await BookModel.findById({ _id: productId });
     return result;
 }
 
@@ -26,10 +26,16 @@ const updateBookInDb = async (productId: string, updateData: IBook) => {
     return result;
 }
 
+// delete a book as update isDelete fild 
+// const deleteBookInDb = async (productId: string) => {
+//     const result = await BookModel.findByIdAndUpdate({_id:productId}, { isDeleted: true } , { new: true })
+//     return result;
+// }
+
 // delete a book
-const deleteBookInDb = async (productId: string) => {
-    const result = await BookModel.findByIdAndUpdate({_id:productId}, { isDeleted: true } , { new: true })
-    return result;
+const deleteBookFromDb = async (productId: string) => {
+    const resutl = await BookModel.findByIdAndDelete({_id :productId},{ lean: true });
+    return resutl;
 }
 
 
@@ -39,5 +45,6 @@ export const bookServices = {
     createBookInDb,
     getSpecificBookFromDb,
     updateBookInDb,
-    deleteBookInDb,
+    // deleteBookInDb,
+    deleteBookFromDb,
 }
