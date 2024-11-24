@@ -4,7 +4,7 @@ import { orderValidationSchema } from "./order.zod-validation";
 import { orderService } from './order.service';
 
 
-
+// create order
 const createOrder = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const orderData = req.body;
@@ -49,10 +49,26 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
 
     } catch (error) {
         next(error)
-        // console.log({ error });
     }
 }
 
+// Calculate Revenue from Orders
+const getRevenue = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const totalRevenue = await orderService.calculateRevenueFromOrders();
+        res.status(200).json({
+            message: "Revenue calculated successfully",
+            success: true,
+            data: { totalRevenue },
+        });
+
+    } catch (error) {
+        next(error)
+    }
+}
+
+
 export const orderContrller = {
     createOrder,
+    getRevenue,
 }
