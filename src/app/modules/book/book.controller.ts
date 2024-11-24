@@ -3,8 +3,8 @@ import { bookServices } from "./book.service";
 import { bookValidateSchema } from "./book.zod-validation";
 
 
-// createNewBook 
 
+// createNewBook 
 const createNewBook = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const bookData = req.body;
@@ -18,7 +18,6 @@ const createNewBook = async (req: Request, res: Response, next: NextFunction): P
         })
 
     } catch (error) {
-
         if (error.name === 'ZodError') {
             next(error)
         }
@@ -126,7 +125,6 @@ const updateBookById = async (req: Request, res: Response) => {
         });
     }
 }
-
 
 // delete a book
 const deleteABookById = async (req: Request, res: Response): Promise<void> => {

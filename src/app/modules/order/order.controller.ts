@@ -10,7 +10,6 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
         const orderData = req.body;
         const validOrderData = orderValidationSchema.parse(orderData);
 
-
         // Check in database : is book available or not
         const foundBook = await BookModel.findById(validOrderData.product);
         if (!foundBook) {
@@ -48,7 +47,6 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
         });
 
     } catch (error) {
-
         if (error.name === 'ZodError') {
             next(error)
         }
