@@ -20,7 +20,7 @@ Book Shop API is a backend application built with TypeScript, Express.js, and Mo
 
 ### Step 1: Clone the Repository
 ```bash
-git clone https://github.com/your-username/book-shop-api.git
+git clone https://github.com/Sakhawat71/book-shop-backend.git
 cd book-shop-api
 ```
 
